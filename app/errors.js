@@ -8,3 +8,9 @@ exports.databaseError = message => internalError(message, exports.DATABASE_ERROR
 
 exports.DEFAULT_ERROR = 'default_error';
 exports.defaultError = message => internalError(message, exports.DEFAULT_ERROR);
+
+exports.SERVICE_UNAVAILABLE = 'service_unavailable';
+exports.serviceUnavailable = message => internalError(message, exports.SERVICE_UNAVAILABLE);
+
+exports.SERVICE_ERROR = 'service_error';
+exports.serviceError = message => internalError(message, exports.SERVICE_ERROR);

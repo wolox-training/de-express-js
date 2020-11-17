@@ -1,22 +1,22 @@
 const axios = require('axios');
 const logger = require('../logger');
-const { defaultError } = require('../errors');
-
+const { serviceError, serviceUnavailable } = require('../errors');
 const { numberAPIUrl } = require('../../config').common.service;
 
-module.exports.numberApi = fact =>
-  axios({
+module.exports.numberApi = fact => {
+  if (fact !== 'trivia' && fact !== 'year' && fact !== 'date' && fact !== 'math')
+    throw serviceError(`the entered fact ${fact} is not supported`);
+  return axios({
     url: fact,
     baseURL: numberAPIUrl,
     method: 'get'
   })
-    .then(response =>
-      Promise.resolve({
-        data: response.data,
-        status: response.status
-      })
-    )
+    .then(response => ({
+      data: response.data,
+      status: response.status
+    }))
     .catch(error => {
       logger.error({ error: error.stack });
-      throw defaultError('missing service');
+      throw serviceUnavailable('service not available');
     });
+};
