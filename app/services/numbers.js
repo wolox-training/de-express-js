@@ -5,7 +5,7 @@ const { numberAPIUrl } = require('../../config').common.service;
 const { ALLOWED_FACTS } = require('../constants');
 
 module.exports.numberApi = fact => {
-  if (!ALLOWED_FACTS.include(fact)) {
+  if (!ALLOWED_FACTS.includes(fact)) {
     throw serviceError(`the entered fact ${fact} is not supported`);
   }
   return axios({
