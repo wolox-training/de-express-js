@@ -2,9 +2,10 @@ const axios = require('axios');
 const logger = require('../logger');
 const { serviceError, serviceUnavailable } = require('../errors');
 const { numberAPIUrl } = require('../../config').common.service;
+const { ALLOWED_FACTS } = require('../constants');
 
 module.exports.numberApi = fact => {
-  if (fact !== 'trivia' && fact !== 'year' && fact !== 'date' && fact !== 'math') {
+  if (!ALLOWED_FACTS.include(fact)) {
     throw serviceError(`the entered fact ${fact} is not supported`);
   }
   return axios({
