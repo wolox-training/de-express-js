@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded(bodyParserUrlencodedConfig()));
 app.use(expressRequestIdMiddleware());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 
-if (!config.isTesting) app.use(expressMiddleware({ loggerFn: logger.info }));
+if (!config.isTesting) app.use(expressMiddleware({ loggerFn: info => logger.info(info) }));
 
 routes.init(app);
 
