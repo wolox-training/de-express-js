@@ -26,13 +26,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      create_at: {
-        type: Sequelize.DATE,
-        allowNull: false
+      created_at: {
+        type: Sequelize.DATE
       },
-      update_at: {
-        type: Sequelize.DATE,
-        allowNull: false
+      updated_at: {
+        type: Sequelize.DATE
       }
     }),
   down: queryInterface => queryInterface.dropTable('users')
