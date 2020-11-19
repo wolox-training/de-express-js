@@ -12,10 +12,9 @@ exports.createUser = (req, res, netx) => {
   })
     .then(existUser => {
       if (!existUser) return bcrypt.hash(user.password, 8);
-      return null;
+      throw duplicatedRegsiterError(`email: ${user.email} already exist`);
     })
     .then(password => {
-      if (!password) throw duplicatedRegsiterError(`email: ${user.email} already exist`);
       user.password = password;
       return User.create(user);
     })
