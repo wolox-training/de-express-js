@@ -14,3 +14,14 @@ exports.serviceUnavailable = message => internalError(message, exports.SERVICE_U
 
 exports.SERVICE_ERROR = 'service_error';
 exports.serviceError = message => internalError(message, exports.SERVICE_ERROR);
+
+exports.SCHEMA_ERROR = 'schema_error';
+exports.schemaError = message => internalError(message, exports.SCHEMA_ERROR);
+
+exports.DUPLICATED_REGISTER_ERROR = 'duplicted_register_error';
+exports.duplicatedRegsiterError = message => internalError(message, exports.DUPLICATED_REGISTER_ERROR);
+
+exports.typeError = (key, type) => `${key} most be ${type}`;
+exports.requiredFieldError = key => `${key} is required`;
+exports.lengthFieldError = (key, long) => `${key} must be at least ${long} characters`;
+exports.mailDomainError = key => `${key}: domain not allowed`;
