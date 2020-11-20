@@ -1,29 +1,29 @@
 const bcrypt = require('bcryptjs');
-const db = require('../models');
-const User = require('../models/user')(db.sequelize, db.Sequelize.DataTypes);
+const { users } = require('../models');
 const { duplicatedRegsiterError } = require('../errors');
 
-exports.createUser = (req, res, netx) => {
+exports.createUser = (req, res, next) => {
   const user = req.body;
-  User.findOne({
-    where: {
-      email: user.email
-    }
-  })
+  users
+    .findOne({
+      where: {
+        email: user.email
+      }
+    })
     .then(existUser => {
       if (!existUser) return bcrypt.hash(user.password, 8);
-      throw duplicatedRegsiterError(`email: ${user.email} already exist`);
+      throw duplicatedRegsiterError(`user with email ${user.email} already exist`);
     })
     .then(password => {
       user.password = password;
-      return User.create(user);
+      return users.create(user);
     })
     .then(newUser => {
       const message = {
         message: 'User created',
         data: { name: newUser.name, email: newUser.email }
       };
-      res.status(200).json(message);
+      res.status(200).send(message);
     })
-    .catch(error => netx(error));
+    .catch(error => next(error));
 };

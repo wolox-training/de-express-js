@@ -7,8 +7,7 @@ exports.createUser = {
     custom: {
       options: value => {
         const regexMail = /^\w+([.-]?\w+)*(@wolox)*([.]\w{2,3})+$/;
-        if (!value.match(regexMail)) return false;
-        return true;
+        return !!value.match(regexMail);
       },
       errorMessage: mailDomainError('email')
     },
