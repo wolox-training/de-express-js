@@ -1,38 +1,34 @@
 module.exports = {
-  userId: {
-    type: 'integer',
-    example: 7
-  },
-  username: {
+  userName: {
     type: 'string',
-    example: 'tom99'
+    example: 'Pedro'
+  },
+  userLastname: {
+    type: 'string',
+    example: 'Perez'
   },
   userEmail: {
     type: 'string',
-    example: 'tom.engels@wolox.com.ar'
+    example: 'pedro.perez@wolox.co'
+  },
+  userPassword: {
+    type: 'string',
+    example: '1234abcd'
   },
   User: {
     type: 'object',
     properties: {
-      id: {
-        $ref: '#/components/schemas/userId'
+      name: {
+        $ref: '#/components/schemas/userName'
       },
-      username: {
-        $ref: '#/components/schemas/username'
+      lastname: {
+        $ref: '#/components/schemas/userLastname'
       },
       email: {
         $ref: '#/components/schemas/userEmail'
-      }
-    }
-  },
-  Users: {
-    type: 'object',
-    properties: {
-      users: {
-        type: 'array',
-        items: {
-          $ref: '#/components/schemas/User'
-        }
+      },
+      password: {
+        $ref: '#/components/schemas/userPassword'
       }
     }
   }
