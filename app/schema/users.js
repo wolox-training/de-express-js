@@ -39,7 +39,7 @@ exports.createUser = {
   },
   lastname: {
     in: ['body'],
-    isString: { errorMessage: typeError('name', 'string') },
+    isString: { errorMessage: typeError('lastname', 'string') },
     trim: true,
     isEmpty: {
       negated: true,

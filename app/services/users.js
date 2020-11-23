@@ -13,11 +13,7 @@ exports.createUserService = (users, data) =>
       if (!existUser) return bcrypt.hash(data.password, 8);
       throw duplicatedRegsiterError(`user with email ${data.email} already exist`);
     })
-    .then(password => {
-      data.password = password;
-      return users.create(data);
-    })
-    .then(newUser => newUser)
+    .then(password => users.create({ ...data, password }))
     .catch(error => {
       logger.error(error);
       throw error;
