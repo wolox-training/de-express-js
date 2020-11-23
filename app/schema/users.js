@@ -1,14 +1,12 @@
 const { typeError, lengthFieldError, mailDomainError, requiredFieldError } = require('../errors');
+const { REGEX_EMAIL } = require('../constants');
 
 exports.createUser = {
   email: {
     in: ['body'],
     isEmail: { errorMessage: typeError('email', 'email') },
     custom: {
-      options: value => {
-        const regexMail = /^\w+([.-]?\w+)*(@wolox)*([.]\w{2,3})+$/;
-        return !!value.match(regexMail);
-      },
+      options: value => !!value.match(REGEX_EMAIL),
       errorMessage: mailDomainError('email')
     },
     trim: true,
@@ -41,7 +39,7 @@ exports.createUser = {
   },
   lastname: {
     in: ['body'],
-    isString: { errorMessage: typeError('name', 'string') },
+    isString: { errorMessage: typeError('lastname', 'string') },
     trim: true,
     isEmpty: {
       negated: true,
