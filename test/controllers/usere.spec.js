@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 const app = require('../../app.js');
-const testUser = require('../fixtures/users');
+const { user } = require('../fixtures/users');
 const userFactory = require('../factory/users');
 
 const VALID_RESPONSE_CODE = 200;
@@ -14,7 +14,7 @@ describe('controllers', () => {
       it('Sing in user successfully', () =>
         request(app)
           .post('/users')
-          .send(testUser.correct)
+          .send(user)
           .then(res => {
             expect(res.statusCode).toBe(VALID_RESPONSE_CODE);
           }));
@@ -24,7 +24,7 @@ describe('controllers', () => {
           .then(() =>
             request(app)
               .post('/users')
-              .send(testUser.correct)
+              .send(user)
           )
           .then(res => {
             expect(res.statusCode).toBe(DUPLICATED_REGISTER_ERROR);
@@ -32,25 +32,25 @@ describe('controllers', () => {
       it('Sing in user with invalid domain', () =>
         request(app)
           .post('/users')
-          .send(testUser.worngMail)
+          .send({ ...user, email: 'pedro.perez@gmail.com' })
           .then(res => {
             expect(res.statusCode).toBe(INVALID_SCHEMA_CODE);
           }));
       it('Sing in user with no alphanumeric password', () =>
         request(app)
           .post('/users')
-          .send(testUser.noAlphanumericPass)
+          .send({ ...user, password: '1234#bcd' })
           .then(res => {
             expect(res.statusCode).toBe(INVALID_SCHEMA_CODE);
           }));
       it('Sing in user with short password', () =>
         request(app)
           .post('/users')
-          .send(testUser.shortPassword)
+          .send({ ...user, password: '1234abc' })
           .then(res => {
             expect(res.statusCode).toBe(INVALID_SCHEMA_CODE);
           }));
-      it('Sing in epmty user', () =>
+      it('Sing in empty user', () =>
         request(app)
           .post('/users')
           .send({})
