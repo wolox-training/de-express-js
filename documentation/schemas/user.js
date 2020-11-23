@@ -15,6 +15,14 @@ module.exports = {
     type: 'string',
     example: '1234abcd'
   },
+  singInEmail: {
+    type: 'string',
+    example: 'email@email.com'
+  },
+  singInPassword: {
+    type: 'string',
+    example: 'password'
+  },
   User: {
     type: 'object',
     properties: {
@@ -29,6 +37,17 @@ module.exports = {
       },
       password: {
         $ref: '#/components/schemas/userPassword'
+      }
+    }
+  },
+  SingInUser: {
+    type: 'object',
+    properties: {
+      email: {
+        $ref: '#/components/schemas/singInEmail'
+      },
+      password: {
+        $ref: '#/components/schemas/singInPassword'
       }
     }
   }
