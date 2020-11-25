@@ -1,9 +1,12 @@
 const { duplicatedRegsiterError, unauthenticatedUserError } = require('../errors');
 const logger = require('../logger');
-const { findUserByEmail, cryptPass, checkPass, generateUserJWT } = require('../Utiles/users');
+const { users } = require('../models');
+const { cryptPass, checkPass, generateUserJWT } = require('../utiles/token');
 
-exports.createUserService = (users, data) =>
-  findUserByEmail(users, data.email)
+const findUserByEmail = email => users.findOne({ where: { email } });
+
+exports.createUserService = data =>
+  findUserByEmail(data.email)
     .then(existUser => {
       if (!existUser) return cryptPass(data.password);
       throw duplicatedRegsiterError(`user with email ${data.email} already exist`);
@@ -14,8 +17,8 @@ exports.createUserService = (users, data) =>
       throw error;
     });
 
-exports.singInUserService = (users, data) =>
-  findUserByEmail(users, data.email)
+exports.singInUserService = data =>
+  findUserByEmail(data.email)
     .then(existUser => {
       if (!existUser) throw unauthenticatedUserError(`user with email ${data.email} is not registred`);
       return [checkPass(data.password, existUser.password), existUser.id];

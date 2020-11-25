@@ -1,8 +1,7 @@
 const { createUserService, singInUserService } = require('../services/users');
-const { users } = require('../models');
 
 exports.createUser = (req, res, next) =>
-  createUserService(users, req.body)
+  createUserService(req.body)
     .then(newUser => {
       const message = {
         message: 'User created',
@@ -13,7 +12,7 @@ exports.createUser = (req, res, next) =>
     .catch(error => next(error));
 
 exports.singInUser = (req, res, next) =>
-  singInUserService(users, req.body)
+  singInUserService(req.body)
     .then(token => {
       const message = {
         message: 'authenticated user',

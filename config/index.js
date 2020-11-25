@@ -47,9 +47,6 @@ const config = {
     },
     service: {
       numberAPIUrl: process.env.URL_NUMBERS_API
-    },
-    jwt: {
-      jwtSecret: process.env.JWT_SECRET
     }
   }
 };
