@@ -9,7 +9,8 @@ const statusCodes = {
   [errors.SERVICE_UNAVAILABLE]: 503,
   [errors.SERVICE_ERROR]: 400,
   [errors.SCHEMA_ERROR]: 422,
-  [errors.DUPLICATED_REGISTER_ERROR]: 400
+  [errors.DUPLICATED_REGISTER_ERROR]: 400,
+  [errors.UNAUTHENTICATED_USER_ERROR]: 401
 };
 
 exports.handle = (error, req, res, next) => {
