@@ -5,6 +5,8 @@ const {
   createAdminUserService
 } = require('../services/users');
 
+const { defaultPage, defaultSize } = require('../constants');
+
 exports.createUser = (req, res, next) =>
   createUserService(req.body)
     .then(newUser => {
@@ -29,15 +31,13 @@ exports.singInUser = (req, res, next) =>
 
 exports.listUsers = (req, res, next) => {
   const { page, size } = req.query;
-  listUsersService(page || 1, size || 20)
+  return listUsersService(page || defaultPage, size || defaultSize)
     .then(({ count, rows }) => {
       const message = {
         message: 'Users list',
-        data: rows,
-        pagination: {
-          page,
-          totalReg: count
-        }
+        users: rows,
+        page,
+        total: count
       };
       res.status(200).send(message);
     })
