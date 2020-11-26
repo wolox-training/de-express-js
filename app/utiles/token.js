@@ -7,3 +7,5 @@ exports.cryptPass = password => bcrypt.hash(password, 8);
 exports.checkPass = (password, hash) => bcrypt.compare(password, hash);
 
 exports.generateUserJWT = payload => jwt.encode(payload, secret);
+
+exports.decodeJWT = token => jwt.decode(token, secret);

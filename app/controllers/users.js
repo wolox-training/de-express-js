@@ -1,4 +1,4 @@
-const { createUserService, singInUserService } = require('../services/users');
+const { createUserService, singInUserService, listUsersService } = require('../services/users');
 
 exports.createUser = (req, res, next) =>
   createUserService(req.body)
@@ -21,3 +21,20 @@ exports.singInUser = (req, res, next) =>
       res.status(200).send(message);
     })
     .catch(error => next(error));
+
+exports.listUsers = (req, res, next) => {
+  const { page, size } = req.query;
+  listUsersService(page || 1, size || 20)
+    .then(({ count, rows }) => {
+      const message = {
+        message: 'Users list',
+        data: rows,
+        pagination: {
+          page,
+          totalReg: count
+        }
+      };
+      res.status(200).send(message);
+    })
+    .catch(error => next(error));
+};

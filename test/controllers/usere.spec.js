@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 const app = require('../../app.js');
-const { user } = require('../fixtures/users');
+const { user, users } = require('../fixtures/users');
 const userFactory = require('../factory/users');
 
 const VALID_RESPONSE_CODE = 200;
@@ -98,6 +98,64 @@ describe('controllers', () => {
           .send({ email: 'pedro.perez@.wolos.com', password: '1234567#' })
           .then(res => {
             expect(res.statusCode).toBe(INVALID_SCHEMA_CODE);
+          }));
+    });
+    describe('GET /user', () => {
+      it('List all users with defult paginaton', () =>
+        userFactory
+          .createMany()
+          .then(() =>
+            request(app)
+              .post('/users/sessions')
+              .send({ email: user.email, password: user.password })
+          )
+          .then(res =>
+            request(app)
+              .get('/users')
+              .set({ authorization: res.body.data.token })
+          )
+          .then(res => {
+            expect(res.statusCode).toBe(VALID_RESPONSE_CODE);
+            expect(res.body.pagination.totalReg).toBe(users.length);
+          }));
+      it('List all users on page 1 and size 2', () =>
+        userFactory
+          .createMany()
+          .then(() =>
+            request(app)
+              .post('/users/sessions')
+              .send({ email: user.email, password: user.password })
+          )
+          .then(res =>
+            request(app)
+              .get('/users?page=1&size=2')
+              .set({ authorization: res.body.data.token })
+          )
+          .then(res => {
+            expect(res.statusCode).toBe(VALID_RESPONSE_CODE);
+            expect(2).toBe(res.body.data.length);
+          }));
+      it('List all users with wrong toke', () =>
+        userFactory
+          .createMany()
+          .then(() =>
+            request(app)
+              .post('/users/sessions')
+              .send({ email: user.email, password: user.password })
+          )
+          .then(res =>
+            request(app)
+              .get('/users?page=1&size=2')
+              .set({ authorization: `${res.body.data.token}a` })
+          )
+          .then(res => {
+            expect(res.statusCode).toBe(UNAUTHENTICATED_USER_ERROR);
+          }));
+      it('List all users with out toke', () =>
+        request(app)
+          .get('/users?page=1&size=2')
+          .then(res => {
+            expect(res.statusCode).toBe(UNAUTHENTICATED_USER_ERROR);
           }));
     });
   });

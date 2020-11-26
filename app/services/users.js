@@ -1,9 +1,13 @@
-const { duplicatedRegsiterError, unauthenticatedUserError } = require('../errors');
+const { duplicatedRegsiterError, unauthenticatedUserError, databaseError } = require('../errors');
 const logger = require('../logger');
 const { users } = require('../models');
 const { cryptPass, checkPass, generateUserJWT } = require('../utiles/token');
 
-const findUserByEmail = email => users.findOne({ where: { email } });
+const findUserByEmail = email =>
+  users.findOne({ where: { email } }).catch(error => {
+    logger.error(error);
+    throw databaseError('Database error when trying find user');
+  });
 
 exports.createUserService = data =>
   findUserByEmail(data.email)
@@ -30,4 +34,16 @@ exports.singInUserService = data =>
     .catch(error => {
       logger.error(error);
       throw error;
+    });
+
+exports.listUsersService = (page, size) =>
+  users
+    .findAndCountAll({
+      attributes: ['id', 'name', 'lastname', 'email'],
+      offset: (page - 1) * size,
+      limit: size
+    })
+    .catch(error => {
+      logger.error(error);
+      throw databaseError('Database error when trying to list all users');
     });

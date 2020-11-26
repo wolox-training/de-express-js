@@ -26,6 +26,52 @@ module.exports = {
           description: 'Invalid parameters on body'
         }
       }
+    },
+    get: {
+      tags: ['Users'],
+      description: 'List users with paginations',
+      operationId: 'listUsers',
+      parameters: [
+        {
+          name: 'Authorization',
+          in: 'headers',
+          schema: {
+            type: 'string',
+            default: ''
+          },
+          required: true,
+          description: 'authorization token'
+        },
+        {
+          name: 'page',
+          in: 'query',
+          schema: {
+            type: 'integer',
+            default: 1
+          },
+          required: false
+        },
+        {
+          name: 'size',
+          in: 'query',
+          schema: {
+            type: 'integer',
+            default: 10
+          },
+          required: false
+        }
+      ],
+      responses: {
+        200: {
+          description: 'successful query'
+        },
+        401: {
+          description: 'Users unauthenticated'
+        },
+        422: {
+          description: 'Invalid parameters on request'
+        }
+      }
     }
   },
   '/users/sessions': {

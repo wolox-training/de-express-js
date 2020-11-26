@@ -76,3 +76,16 @@ exports.singInUser = {
     }
   }
 };
+
+exports.listUsers = {
+  page: {
+    in: ['query'],
+    isInt: { errorMessage: typeError('page', 'integer') },
+    optional: { options: { nullable: true } }
+  },
+  size: {
+    in: ['query'],
+    isInt: { errorMessage: typeError('sizes', 'integer') },
+    optional: { options: { nullable: true } }
+  }
+};
