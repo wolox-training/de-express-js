@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      id_role: {
+        type: DataTypes.INTEGER,
+        defaultValue: 2
+      },
       lastname: {
         type: DataTypes.STRING,
         allowNull: false

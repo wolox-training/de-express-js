@@ -1,4 +1,9 @@
-const { createUserService, singInUserService, listUsersService } = require('../services/users');
+const {
+  createUserService,
+  singInUserService,
+  listUsersService,
+  createAdminUserService
+} = require('../services/users');
 
 exports.createUser = (req, res, next) =>
   createUserService(req.body)
@@ -38,3 +43,14 @@ exports.listUsers = (req, res, next) => {
     })
     .catch(error => next(error));
 };
+
+exports.createAdminUser = (req, res, next) =>
+  createAdminUserService(req.body)
+    .then(newUser => {
+      const message = {
+        message: 'Admi user created',
+        data: { name: newUser.name, email: newUser.email }
+      };
+      res.status(200).send(message);
+    })
+    .catch(error => next(error));

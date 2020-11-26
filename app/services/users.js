@@ -6,8 +6,18 @@ const { cryptPass, checkPass, generateUserJWT } = require('../utiles/token');
 const findUserByEmail = email =>
   users.findOne({ where: { email } }).catch(error => {
     logger.error(error);
-    throw databaseError('Database error when trying find user');
+    throw databaseError('Database error when trying find user by email');
   });
+
+const findUserById = id =>
+  users.findByPk(id).catch(error => {
+    logger.error(error);
+    throw databaseError('Database error when trying find user by Id');
+  });
+
+exports.findUserByEmail = findUserByEmail;
+
+exports.findUserById = findUserById;
 
 exports.createUserService = data =>
   findUserByEmail(data.email)
@@ -46,4 +56,19 @@ exports.listUsersService = (page, size) =>
     .catch(error => {
       logger.error(error);
       throw databaseError('Database error when trying to list all users');
+    });
+
+exports.createAdminUserService = data =>
+  cryptPass(data.password)
+    .then(password =>
+      users.findOrCreate({
+        where: {
+          email: data.email
+        },
+        defaults: { ...data, id_role: 1, password }
+      })
+    )
+    .catch(error => {
+      logger.error(error);
+      throw databaseError('Database error when trying to create admin users');
     });
