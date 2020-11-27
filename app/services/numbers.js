@@ -18,7 +18,7 @@ module.exports.numberApi = fact => {
       status: response.status
     }))
     .catch(error => {
-      logger.error({ error: error.stack });
+      logger.error(error);
       throw serviceUnavailable('service not available');
     });
 };
