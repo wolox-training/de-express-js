@@ -10,8 +10,6 @@ const INVALID_SCHEMA_CODE = 422;
 const DUPLICATED_REGISTER_ERROR = 400;
 const UNAUTHENTICATED_USER_ERROR = 401;
 
-// beforeEach(() => roleFactory.createMany());
-
 describe('controllers', () => {
   describe('users', () => {
     beforeEach(() => roleFactory.createMany());
@@ -120,7 +118,7 @@ describe('controllers', () => {
           )
           .then(res => {
             expect(res.statusCode).toBe(VALID_RESPONSE_CODE);
-            expect(res.body.pagination.totalReg).toBe(users.length);
+            expect(res.body.total).toBe(users.length);
           }));
       it('List all users on page 1 and size 2', () =>
         userFactory
@@ -137,7 +135,7 @@ describe('controllers', () => {
           )
           .then(res => {
             expect(res.statusCode).toBe(VALID_RESPONSE_CODE);
-            expect(2).toBe(res.body.data.length);
+            expect(2).toBe(res.body.users.length);
           }));
       it('List all users with wrong toke', () =>
         userFactory
