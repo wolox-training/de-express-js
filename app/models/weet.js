@@ -2,11 +2,11 @@ module.exports = (sequelize, DataTypes) => {
   const Weet = sequelize.define(
     'weets',
     {
-      contet: {
+      content: {
         type: DataTypes.TEXT,
         allowNull: false
       },
-      iser_id: {
+      user_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       }
