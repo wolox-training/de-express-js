@@ -5,7 +5,7 @@ const logger = require('../app/logger');
 
 exports.check = () => {
   const umzug = new Umzug({
-    logging: logger.info,
+    logging: msg => logger.info(msg),
     storage: 'sequelize',
     storageOptions: { sequelize },
     migrations: {
